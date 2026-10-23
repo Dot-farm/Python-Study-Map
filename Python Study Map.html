@@ -1,0 +1,314 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Python Study Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+<style>
+/* Layout: filter bar, four headline numbers, two charts, coverage matrix, sortable section table. */
+:root{
+  --bg:#F3F5F8; --card:#FFFFFF; --ink:#17202B; --muted:#5B6675; --line:#D9DFE7; --accent:#1F4E8C; --accent-soft:#E3ECF8;
+  --s1:#2F63AE; --s2:#B8601A; --s3:#7653A6;
+  --font:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F141B; --card:#171E27; --ink:#E6EBF2; --muted:#9AA7B8; --line:#2A3441; --accent:#8DB4EA; --accent-soft:#1F2D42;
+  --s1:#7FA8E0; --s2:#E8A064; --s3:#B7A0DE; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F141B; --card:#171E27; --ink:#E6EBF2; --muted:#9AA7B8; --line:#2A3441; --accent:#8DB4EA; --accent-soft:#1F2D42;
+  --s1:#7FA8E0; --s2:#E8A064; --s3:#B7A0DE; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 40px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1{font-size:28px;line-height:1.15;margin:0;letter-spacing:-0.01em;text-wrap:balance}
+h2{font-size:16px;margin:0;font-weight:600}
+.sub{color:var(--muted);margin:6px 0 0;max-width:68ch}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+button,select,input{font:inherit;color:inherit}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:6px 14px;border:1px solid var(--line);background:var(--card);border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.chip:focus-visible,select:focus-visible,input:focus-visible,th button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px}
+.kpi .l{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kpi .v{font-family:var(--mono);font-size:30px;font-weight:500;font-variant-numeric:tabular-nums;margin-top:2px}
+.kpi .n{font-size:13px;color:var(--muted)}
+.charts{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:12px}
+@media (max-width:860px){.charts{grid-template-columns:minmax(0,1fr)}}
+.chead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+select{min-height:40px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.cbox{position:relative}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+td.sec{white-space:normal;min-width:240px}
+th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+th button{all:unset;cursor:pointer;display:inline-flex;gap:4px;align-items:center;min-height:24px}
+th button:hover{color:var(--ink)}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+th.num button{justify-content:flex-end}
+tbody tr:hover{background:var(--accent-soft)}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:13px}
+.search{min-height:40px;padding:6px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);min-width:200px;flex:1 1 200px;max-width:320px}
+.mx td,.mx th{text-align:center}
+.mx td:first-child,.mx th:first-child{text-align:left}
+.lv{display:inline-flex;flex-direction:column;align-items:center;gap:2px;min-width:92px}
+.lv b{font-size:16px;line-height:1}
+.lv small{font-size:12px;color:var(--muted)}
+.lv0 b{color:var(--muted);font-weight:400}
+.lv2 b{color:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted);margin-bottom:10px}
+.callout{background:var(--accent-soft);border-radius:8px;padding:12px 14px;font-size:14px;margin-top:14px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+footer{font-size:13px;color:var(--muted);max-width:90ch}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Python Study Map</h1>
+      <p class="sub">Three course files side by side: how much each teaches, where the code examples are, and which topics only one of them covers.</p>
+    </div>
+    <div class="filters">
+      <div class="seg" role="group" aria-label="Choose course file" id="fileSeg"></div>
+    </div>
+  </header>
+
+  <section class="kpis" aria-label="Headline numbers" id="kpis"></section>
+
+  <section class="charts">
+    <div class="card">
+      <div class="chead">
+        <h2 id="c1title">Longest sections</h2>
+        <label><span class="sr">Measure</span>
+          <select id="metric">
+            <option value="words">Teaching words</option>
+            <option value="lines">Code lines</option>
+            <option value="blocks">Code examples</option>
+          </select></label>
+      </div>
+      <div class="cbox" id="c1box"><canvas id="c1" role="img" aria-label="Bar chart of the largest sections in the selected files"></canvas></div>
+      <p class="note">Teaching words exclude code. A code example is one fenced block.</p>
+    </div>
+    <div class="card">
+      <div class="chead"><h2>Code lines per 100 teaching words</h2></div>
+      <div class="cbox" style="height:260px"><canvas id="c2" role="img" aria-label="Bar chart of code density for each file"></canvas></div>
+      <p class="note" id="c2note"></p>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="chead"><h2>Which file teaches what</h2></div>
+    <div class="legend">
+      <span><b style="color:var(--accent)">●</b> Has its own section</span>
+      <span><b>◐</b> Covered inside another section</span>
+      <span><b style="color:var(--muted)">–</b> No dedicated section</span>
+    </div>
+    <div class="scroll"><table class="mx" id="matrix"></table></div>
+    <div class="callout" id="only"></div>
+  </section>
+
+  <section class="card">
+    <div class="chead">
+      <h2>All sections</h2>
+      <input class="search" id="q" type="search" placeholder="Search sections" aria-label="Search sections">
+    </div>
+    <div class="scroll"><table id="tbl"></table></div>
+    <p class="note" id="tnote"></p>
+  </section>
+
+  <footer>Counts come from the headings and code fences in the three Markdown files. Practice tasks are the exercises with solutions in the two Python guides, and in Functions and Modules the five-task sets after Parts 1, 2, 4 and 6 plus the 12 exercises and 3 debugging tasks in Part 14. The 16 review questions in Part 15 are not counted.</footer>
+</div>
+
+<script>
+const DATA = [{"file": "master", "section": "1. Getting Started: Introduction & Environment", "words": 381, "blocks": 9, "lines": 48, "practice": 1}, {"file": "master", "section": "2. Core Syntax, Variables & Memory Model", "words": 164, "blocks": 7, "lines": 65, "practice": 1}, {"file": "master", "section": "3. Standard Input, Output & Type Casting", "words": 140, "blocks": 4, "lines": 25, "practice": 0}, {"file": "master", "section": "4. Fundamental Data Types & Operators", "words": 466, "blocks": 5, "lines": 40, "practice": 1}, {"file": "master", "section": "5. Working with Strings & Text Manipulation", "words": 153, "blocks": 8, "lines": 75, "practice": 1}, {"file": "master", "section": "6. Control Flow: Conditional Decision Making", "words": 196, "blocks": 7, "lines": 90, "practice": 1}, {"file": "master", "section": "7. Control Flow: Loops & Iteration", "words": 232, "blocks": 8, "lines": 78, "practice": 1}, {"file": "master", "section": "8. Data Collections: Lists, Tuples, Sets & Dictionaries", "words": 154, "blocks": 8, "lines": 108, "practice": 1}, {"file": "master", "section": "9. Functions, Modular Design & Scope", "words": 297, "blocks": 8, "lines": 85, "practice": 1}, {"file": "master", "section": "10. Error Handling & Exception Safety", "words": 202, "blocks": 4, "lines": 58, "practice": 1}, {"file": "master", "section": "11. File I/O & Structured Data Handling", "words": 230, "blocks": 6, "lines": 94, "practice": 1}, {"file": "master", "section": "12. Modules, Standard Library & Virtual Environments", "words": 154, "blocks": 6, "lines": 73, "practice": 1}, {"file": "master", "section": "13. Introduction to Object-Oriented Programming (OOP)", "words": 228, "blocks": 6, "lines": 97, "practice": 1}, {"file": "master", "section": "14. Comprehensive Capstone Practice Projects", "words": 41, "blocks": 4, "lines": 186, "practice": 0}, {"file": "master", "section": "15. Python Best Practices & Specialization Learning Roadmap", "words": 149, "blocks": 1, "lines": 15, "practice": 0}, {"file": "fn", "section": "Course overview", "words": 386, "blocks": 0, "lines": 0, "practice": 0}, {"file": "fn", "section": "Part 0 — Setup and Working Habits", "words": 166, "blocks": 7, "lines": 12, "practice": 0}, {"file": "fn", "section": "Part 1 — Understanding Functions", "words": 693, "blocks": 15, "lines": 87, "practice": 5}, {"file": "fn", "section": "Part 2 — Parameters and Arguments in Python", "words": 662, "blocks": 22, "lines": 101, "practice": 5}, {"file": "fn", "section": "Part 3 — Scope, Lifetime, and Names", "words": 305, "blocks": 10, "lines": 62, "practice": 0}, {"file": "fn", "section": "Part 4 — Functions as Values", "words": 448, "blocks": 19, "lines": 75, "practice": 5}, {"file": "fn", "section": "Part 5 — Type Hints, Docstrings, and Validation", "words": 268, "blocks": 8, "lines": 31, "practice": 0}, {"file": "fn", "section": "Part 6 — The Call Stack, Recursion, and Closures", "words": 460, "blocks": 8, "lines": 58, "practice": 5}, {"file": "fn", "section": "Part 7 — Designing Good Functions", "words": 472, "blocks": 9, "lines": 64, "practice": 0}, {"file": "fn", "section": "Part 8 — Automated Testing with pytest", "words": 157, "blocks": 4, "lines": 37, "practice": 0}, {"file": "fn", "section": "Part 9 — Python Modules and Packages", "words": 545, "blocks": 19, "lines": 65, "practice": 0}, {"file": "fn", "section": "Part 10 — Main Course Project: Shop Inventory CLI", "words": 575, "blocks": 8, "lines": 214, "practice": 0}, {"file": "fn", "section": "Part 11 — Applying the Course to the Diploma Projects", "words": 138, "blocks": 0, "lines": 0, "practice": 0}, {"file": "fn", "section": "Part 12 — Git Workflow for the Course", "words": 57, "blocks": 1, "lines": 3, "practice": 0}, {"file": "fn", "section": "Part 13 — Common Errors and How to Diagnose Them", "words": 305, "blocks": 0, "lines": 0, "practice": 0}, {"file": "fn", "section": "Part 14 — Practice Exercises", "words": 243, "blocks": 3, "lines": 15, "practice": 15}, {"file": "fn", "section": "Part 15 — Review Questions and Answers", "words": 390, "blocks": 0, "lines": 0, "practice": 0}, {"file": "fn", "section": "Part 16 — Glossary", "words": 396, "blocks": 0, "lines": 0, "practice": 0}, {"file": "fn", "section": "Part 17 — Where This Course Leads", "words": 134, "blocks": 0, "lines": 0, "practice": 0}, {"file": "ref", "section": "1. Getting Started", "words": 445, "blocks": 9, "lines": 50, "practice": 1}, {"file": "ref", "section": "2. Core Concepts", "words": 241, "blocks": 10, "lines": 76, "practice": 1}, {"file": "ref", "section": "3. Input Practice", "words": 212, "blocks": 8, "lines": 69, "practice": 1}, {"file": "ref", "section": "4. Data Types", "words": 301, "blocks": 12, "lines": 112, "practice": 1}, {"file": "ref", "section": "5. Operators", "words": 553, "blocks": 7, "lines": 70, "practice": 1}, {"file": "ref", "section": "6. Flow Control", "words": 199, "blocks": 8, "lines": 99, "practice": 1}, {"file": "ref", "section": "7. Loops", "words": 305, "blocks": 10, "lines": 67, "practice": 1}, {"file": "ref", "section": "8. Data Structures", "words": 255, "blocks": 8, "lines": 126, "practice": 1}, {"file": "ref", "section": "9. Functions", "words": 361, "blocks": 12, "lines": 154, "practice": 1}, {"file": "ref", "section": "10. Lambda Functions", "words": 210, "blocks": 8, "lines": 63, "practice": 1}, {"file": "ref", "section": "11. File Handling", "words": 309, "blocks": 9, "lines": 115, "practice": 1}, {"file": "ref", "section": "12. SQLite Databases", "words": 229, "blocks": 8, "lines": 179, "practice": 1}, {"file": "ref", "section": "13. GUI Development", "words": 335, "blocks": 11, "lines": 257, "practice": 1}];
+const FILES = [
+  {id:'all', name:'All three', var:null},
+  {id:'master', name:'Master Beginner Guide', var:'--s1'},
+  {id:'ref', name:'Foundational Reference', var:'--s3'},
+  {id:'fn', name:'Functions and Modules', var:'--s2'}
+];
+const SERIES = FILES.filter(f=>f.var);
+const MATRIX = [
+ ['Variables and syntax',[2,'Module 2'],[2,'Section 2'],[0,'']],
+ ['Input and output',[2,'Module 3'],[2,'Section 3'],[0,'']],
+ ['Data types and operators',[2,'Module 4'],[2,'Sections 4–5'],[0,'']],
+ ['Strings',[2,'Module 5'],[1,'4.5–4.10'],[0,'']],
+ ['Conditionals and loops',[2,'Modules 6–7'],[2,'Sections 6–7'],[0,'']],
+ ['Lists, tuples, sets, dicts',[2,'Module 8'],[2,'Section 8'],[0,'']],
+ ['Functions and arguments',[2,'Module 9'],[2,'Section 9'],[2,'Parts 1–2']],
+ ['Scope and closures',[1,'Module 9'],[1,'9.8, 9.10'],[2,'Parts 3, 6']],
+ ['Lambda, map and filter',[0,''],[2,'Section 10'],[2,'Part 4']],
+ ['Recursion and the call stack',[0,''],[0,''],[2,'Part 6']],
+ ['Type hints and docstrings',[0,''],[1,'9.11'],[2,'Part 5']],
+ ['Error handling',[2,'Module 10'],[1,'11.8'],[1,'Parts 5, 13']],
+ ['File I/O and JSON',[2,'Module 11'],[2,'Section 11'],[1,'10.6']],
+ ['Modules and packages',[2,'Module 12'],[0,''],[2,'Part 9']],
+ ['Testing with pytest',[0,''],[0,''],[2,'Part 8']],
+ ['Git workflow',[0,''],[0,''],[2,'Parts 0, 12']],
+ ['Object-oriented programming',[2,'Module 13'],[0,''],[0,'']],
+ ['SQLite databases',[0,''],[2,'Section 12'],[0,'']],
+ ['Desktop GUI with tkinter',[0,''],[2,'Section 13'],[0,'']],
+ ['Capstone project',[2,'Module 14'],[1,'12.8, 13.9'],[2,'Part 10']]
+];
+const state = {file:'all', metric:'words', sort:{k:null,dir:'desc'}, q:''};
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt = n => n.toLocaleString('en-US');
+const fileOf = id => FILES.find(f=>f.id===id);
+let c1=null, c2=null;
+
+function rows(){ return DATA.filter(r => state.file==='all' || r.file===state.file); }
+
+function buildSeg(){
+  const seg = document.getElementById('fileSeg');
+  seg.textContent='';
+  FILES.forEach(f=>{
+    const b = document.createElement('button');
+    b.type='button'; b.className='chip'; b.setAttribute('aria-pressed', String(state.file===f.id));
+    if(f.var){ const d=document.createElement('span'); d.className='dot'; d.style.background='var('+f.var+')'; d.setAttribute('aria-hidden','true'); b.appendChild(d); }
+    b.appendChild(document.createTextNode(f.name));
+    b.addEventListener('click',()=>{ state.file=f.id; buildSeg(); render(); });
+    seg.appendChild(b);
+  });
+}
+
+function sum(a,k){ return a.reduce((s,r)=>s+r[k],0); }
+
+function renderKPIs(){
+  const r = rows();
+  const items = [
+    ['Sections', r.length, state.file==='all' ? '3 files' : fileOf(state.file).name],
+    ['Teaching words', sum(r,'words'), 'code not counted'],
+    ['Code examples', sum(r,'blocks'), fmt(sum(r,'lines'))+' lines of code'],
+    ['Practice tasks', sum(r,'practice'), 'with prompts to try']
+  ];
+  const box = document.getElementById('kpis'); box.textContent='';
+  items.forEach(([l,v,n])=>{
+    const d=document.createElement('div'); d.className='kpi';
+    const a=document.createElement('div'); a.className='l'; a.textContent=l;
+    const b=document.createElement('div'); b.className='v'; b.textContent=fmt(v);
+    const c=document.createElement('div'); c.className='n'; c.textContent=n;
+    d.append(a,b,c); box.appendChild(d);
+  });
+}
+
+function short(s){ return s.length>38 ? s.slice(0,37)+'…' : s; }
+
+function renderC1(){
+  const m = state.metric;
+  const label = {words:'teaching words', lines:'code lines', blocks:'code examples'}[m];
+  let r = rows().slice().sort((a,b)=>b[m]-a[m]);
+  const limit = state.file==='all' ? 12 : r.length;
+  r = r.slice(0,limit);
+  document.getElementById('c1title').textContent = (state.file==='all' ? 'Top 12 sections by ' : 'Sections by ') + label;
+  document.getElementById('c1box').style.height = Math.max(260, r.length*30+50)+'px';
+  const col = r.map(x=>css(fileOf(x.file).var));
+  if(c1) c1.destroy();
+  c1 = new Chart(document.getElementById('c1'),{
+    type:'bar',
+    data:{labels:r.map(x=>short(x.section)), datasets:[{data:r.map(x=>x[m]), backgroundColor:col, borderRadius:3, barThickness:18}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{
+        title:i=>r[i[0].dataIndex].section,
+        afterTitle:i=>fileOf(r[i[0].dataIndex].file).name,
+        label:c=>fmt(c.parsed.x)+' '+label}}},
+      scales:{x:{beginAtZero:true,grid:{color:css('--line')},ticks:{color:css('--muted')}},
+              y:{grid:{display:false},ticks:{color:css('--ink'),font:{size:12}}}}}
+  });
+}
+
+function renderC2(){
+  const dens = SERIES.map(f=>{ const r=DATA.filter(x=>x.file===f.id); return sum(r,'lines')/sum(r,'words')*100; });
+  const cols = SERIES.map(f=> (state.file==='all'||state.file===f.id) ? css(f.var) : css('--line'));
+  if(c2) c2.destroy();
+  c2 = new Chart(document.getElementById('c2'),{
+    type:'bar',
+    data:{labels:SERIES.map(f=>f.name), datasets:[{data:dens.map(d=>Math.round(d*10)/10), backgroundColor:cols, borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y.toFixed(1)+' code lines per 100 words'}}},
+      scales:{y:{beginAtZero:true,grid:{color:css('--line')},ticks:{color:css('--muted')}},
+              x:{grid:{display:false},ticks:{color:css('--ink'),font:{size:12}}}}}
+  });
+  const hi = SERIES[dens.indexOf(Math.max(...dens))], lo = SERIES[dens.indexOf(Math.min(...dens))];
+  document.getElementById('c2note').textContent = hi.name+' is the most code-heavy. '+lo.name+' explains more in prose and has about a third of the code per word.';
+}
+
+function renderMatrix(){
+  const t = document.getElementById('matrix'); t.textContent='';
+  const head = t.createTHead().insertRow();
+  ['Topic',...SERIES.map(f=>f.name)].forEach((h,i)=>{
+    const th=document.createElement('th'); th.scope='col';
+    if(i>0){ const d=document.createElement('span'); d.className='dot'; d.style.background='var('+SERIES[i-1].var+')'; d.style.marginRight='6px'; d.setAttribute('aria-hidden','true'); th.appendChild(d); }
+    th.appendChild(document.createTextNode(h)); head.appendChild(th);
+  });
+  const body = t.createTBody();
+  const only = [];
+  MATRIX.forEach(row=>{
+    const tr = body.insertRow();
+    const th = document.createElement('th'); th.scope='row'; th.style.textTransform='none'; th.style.letterSpacing='0'; th.style.fontSize='14px'; th.style.color='var(--ink)'; th.style.fontWeight='500';
+    th.textContent=row[0]; tr.appendChild(th);
+    let n=0;
+    for(let i=1;i<=3;i++){
+      const [lv,ref]=row[i]; if(lv>0) n++;
+      const td=tr.insertCell();
+      const w=document.createElement('span'); w.className='lv lv'+lv;
+      const g=document.createElement('b'); g.setAttribute('aria-hidden','true'); g.textContent = lv===2?'●':lv===1?'◐':'–';
+      const s=document.createElement('span'); s.className='sr'; s.textContent = lv===2?'Own section':lv===1?'Inside another section':'No dedicated section';
+      const sm=document.createElement('small'); sm.textContent=ref||' ';
+      w.append(g,s,sm); td.appendChild(w);
+    }
+    if(n===1){ const i=[1,2,3].find(k=>row[k][0]>0); only.push(row[0]+' ('+SERIES[i-1].name+')'); }
+  });
+  document.getElementById('only').textContent = only.length+' topics appear in one file only: '+only.join('; ')+'.';
+}
+
+const COLS = [
+  {k:'file',l:'File'},{k:'section',l:'Section'},
+  {k:'words',l:'Words',num:true},{k:'blocks',l:'Examples',num:true},{k:'lines',l:'Code lines',num:true},{k:'practice',l:'Practice',num:true}
+];
+
+function renderTable(){
+  let r = rows().filter(x=>!state.q || x.section.toLowerCase().includes(state.q));
+  const s = state.sort;
+  if(s.k){ r = r.slice().sort((a,b)=>{ const x=a[s.k], y=b[s.k]; const c = x<y?-1:x>y?1:0; return s.dir==='asc'?c:-c; }); }
+  const t = document.getElementById('tbl'); t.textContent='';
+  const hr = t.createTHead().insertRow();
+  COLS.forEach(c=>{
+    const th=document.createElement('th'); th.scope='col'; if(c.num) th.className='num';
+    th.setAttribute('aria-sort', s.k===c.k ? (s.dir==='asc'?'ascending':'descending') : 'none');
+    const b=document.createElement('button'); b.type='button';
+    b.textContent=c.l+(s.k===c.k?(s.dir==='asc'?' ▲':' ▼'):'');
+    b.addEventListener('click',()=>{ if(state.sort.k===c.k){ state.sort.dir = state.sort.dir==='asc'?'desc':'asc'; } else { state.sort={k:c.k,dir:c.num?'desc':'asc'}; } renderTable(); });
+    th.appendChild(b); hr.appendChild(th);
+  });
+  const body=t.createTBody();
+  r.forEach(x=>{
+    const tr=body.insertRow();
+    const f=fileOf(x.file);
+    const td0=tr.insertCell(); const tg=document.createElement('span'); tg.className='tag';
+    const d=document.createElement('span'); d.className='dot'; d.style.background='var('+f.var+')'; d.setAttribute('aria-hidden','true');
+    tg.append(d, document.createTextNode(f.name)); td0.appendChild(tg);
+    const td1=tr.insertCell(); td1.className='sec'; td1.textContent=x.section;
+    ['words','blocks','lines','practice'].forEach(k=>{ const td=tr.insertCell(); td.className='num'; td.textContent = x[k]?fmt(x[k]):'–'; });
+  });
+  document.getElementById('tnote').textContent = r.length+' of '+DATA.length+' sections shown.';
+}
+
+function render(){ renderKPIs(); renderC1(); renderC2(); renderTable(); }
+
+function setupChartDefaults(){ Chart.defaults.font.family = "'IBM Plex Sans',system-ui,sans-serif"; Chart.defaults.color = css('--muted'); }
+
+document.getElementById('metric').addEventListener('change',e=>{ state.metric=e.target.value; renderC1(); });
+document.getElementById('q').addEventListener('input',e=>{ state.q=e.target.value.trim().toLowerCase(); renderTable(); });
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{ setupChartDefaults(); renderC1(); renderC2(); });
+new MutationObserver(()=>{ setupChartDefaults(); renderC1(); renderC2(); }).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+setupChartDefaults(); buildSeg(); renderMatrix(); render();
+</script>
+
+</body></html>
